@@ -1,0 +1,66 @@
+const express = require('express');
+const path = require('path');
+const cors = require('cors');
+require('dotenv').config();
+const { connectDB } = require('./config/database');
+
+// Import routes
+const authRoutes = require('./routes/auth');
+const vehicleRoutes = require('./routes/vehicles');
+const offerRoutes = require('./routes/offers');
+const inquiryRoutes = require('./routes/inquiries');
+
+// Initialize express
+const app = express();
+
+// Connect to database
+connectDB();
+
+// Middleware
+app.use(cors({
+    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    credentials: true
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Serve uploaded files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Health check
+app.get('/api/health', (req, res) => {
+    res.json({
+        success: true,
+        message: 'Eminent Merchants API is running',
+        timestamp: new Date().toISOString()
+    });
+});
+
+// Mount routes
+app.use('/api/auth', authRoutes);
+app.use('/api/vehicles', vehicleRoutes);
+app.use('/api/offers', offerRoutes);
+app.use('/api/inquiries', inquiryRoutes);
+
+// 404 handler
+app.use((req, res) => {
+    res.status(404).json({
+        success: false,
+        message: 'Route not found'
+    });
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(err.status || 500).json({
+        success: false,
+        message: err.message || 'Internal Server Error'
+    });
+});
+
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`🚀 Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+});

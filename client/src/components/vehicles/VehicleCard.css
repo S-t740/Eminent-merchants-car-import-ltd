@@ -1,0 +1,148 @@
+/* Vehicle Card */
+.vehicle-card {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-normal);
+}
+
+.vehicle-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+/* Card Image */
+.vehicle-card-image {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+}
+
+.vehicle-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.vehicle-card:hover .vehicle-card-image img {
+    transform: scale(1.05);
+}
+
+/* Status Badge */
+.vehicle-status-badge {
+    position: absolute;
+    top: var(--spacing-3);
+    left: var(--spacing-3);
+    padding: var(--spacing-1) var(--spacing-3);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+}
+
+.vehicle-status-badge.available {
+    background: var(--color-success);
+    color: var(--color-white);
+}
+
+.vehicle-status-badge.reserved {
+    background: var(--color-warning);
+    color: var(--color-white);
+}
+
+.vehicle-status-badge.sold {
+    background: var(--color-error);
+    color: var(--color-white);
+}
+
+/* Featured Badge */
+.vehicle-featured-badge {
+    position: absolute;
+    top: var(--spacing-3);
+    right: var(--spacing-3);
+    padding: var(--spacing-1) var(--spacing-3);
+    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-dark) 100%);
+    color: var(--color-white);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+}
+
+/* Card Content */
+.vehicle-card-content {
+    padding: var(--spacing-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+    flex: 1;
+}
+
+.vehicle-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-dark);
+    line-height: var(--line-height-tight);
+}
+
+/* Vehicle Specs */
+.vehicle-specs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-2);
+}
+
+.vehicle-spec {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-600);
+}
+
+.vehicle-spec svg {
+    color: var(--color-primary);
+    font-size: 1rem;
+}
+
+/* Card Footer */
+.vehicle-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--spacing-4);
+    border-top: 1px solid var(--color-gray-200);
+    margin-top: auto;
+}
+
+.vehicle-price {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-primary);
+}
+
+.vehicle-view-btn {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    padding: var(--spacing-1) var(--spacing-3);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+
+.vehicle-card:hover .vehicle-view-btn {
+    background: var(--color-primary);
+    color: var(--color-white);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .vehicle-specs {
+        grid-template-columns: 1fr 1fr;
+    }
+}

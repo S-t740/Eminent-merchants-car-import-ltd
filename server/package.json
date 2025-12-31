@@ -1,0 +1,37 @@
+{
+  "name": "emcil-server",
+  "version": "1.0.0",
+  "description": "Eminent Merchants Car Importers LTD - API Server",
+  "main": "server_recovered.js",
+  "scripts": {
+    "start": "node server_recovered.js",
+    "dev": "nodemon server_recovered.js",
+    "seed": "node seeders/seed.js"
+  },
+  "keywords": [
+    "car",
+    "dealership",
+    "api",
+    "meru",
+    "kenya"
+  ],
+  "author": "Eminent Merchants",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.8.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.0.2",
+    "pg": "^8.16.3",
+    "sequelize": "^6.37.7",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
