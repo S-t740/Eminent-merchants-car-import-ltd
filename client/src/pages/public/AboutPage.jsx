@@ -45,9 +45,7 @@ const AboutPage = () => {
                 <div className="container">
                     <div className="story-grid">
                         <div className="story-image">
-                            <div className="story-image-placeholder">
-                                <span>🚗</span>
-                            </div>
+                            <img src="/images/about-car.jpg" alt="Eminent Merchants Showroom" />
                         </div>
                         <div className="story-content">
                             <h2>Our Story</h2>
