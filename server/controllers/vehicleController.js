@@ -219,9 +219,6 @@ exports.deleteVehicle = async (req, res, next) => {
 // @desc    Upload vehicle images
 // @route   POST /api/vehicles/:id/images
 // @access  Private/Admin
-// @desc    Upload vehicle images
-// @route   POST /api/vehicles/:id/images
-// @access  Private/Admin
 exports.uploadImages = async (req, res, next) => {
     try {
         const vehicle = await Vehicle.findByPk(req.params.id);
@@ -248,10 +245,45 @@ exports.uploadImages = async (req, res, next) => {
             });
         }
 
-        const uploadedImages = req.files.map(file => ({
-            url: `${process.env.BACKEND_URL || 'http://localhost:5000'}/uploads/vehicles/${file.filename}`,
-            publicId: file.filename
-        }));
+        const uploadedImages = [];
+
+        // Check if Cloudinary is configured
+        if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
+            // Use Cloudinary in production
+            const cloudinary = require('cloudinary').v2;
+            cloudinary.config({
+                cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+                api_key: process.env.CLOUDINARY_API_KEY,
+                api_secret: process.env.CLOUDINARY_API_SECRET
+            });
+
+            for (const file of req.files) {
+                try {
+                    const result = await cloudinary.uploader.upload(file.path, {
+                        folder: 'emcil/vehicles',
+                        resource_type: 'image'
+                    });
+                    uploadedImages.push({
+                        url: result.secure_url,
+                        publicId: result.public_id
+                    });
+                    // Delete local file after upload to Cloudinary
+                    fs.unlink(file.path, err => {
+                        if (err) console.error('Error deleting temp file:', err);
+                    });
+                } catch (uploadErr) {
+                    console.error('Cloudinary upload error:', uploadErr);
+                }
+            }
+        } else {
+            // Fallback to local storage for development
+            for (const file of req.files) {
+                uploadedImages.push({
+                    url: `${process.env.BACKEND_URL || 'http://localhost:5000'}/uploads/vehicles/${file.filename}`,
+                    publicId: file.filename
+                });
+            }
+        }
 
         // Append to existing images
         const currentImages = vehicle.images || [];
