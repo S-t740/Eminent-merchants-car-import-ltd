@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
 const { User } = require('../models');
 
 /**
@@ -13,20 +12,16 @@ router.get('/setup-admin', async (req, res) => {
         const adminExists = await User.findOne({ where: { email: 'staff@gmail.com' } });
 
         if (adminExists) {
-            return res.json({
-                success: true,
-                message: 'Admin user already exists',
-                email: 'staff@gmail.com'
-            });
+            // Delete existing admin and create new one with correct password
+            await adminExists.destroy();
+            console.log('Deleted existing admin user to recreate with correct password');
         }
 
-        // Create admin user
-        const hashedPassword = await bcrypt.hash('staff123', 12);
-
+        // Create admin user - the User model will hash the password automatically
         const admin = await User.create({
             name: 'Admin',
             email: 'staff@gmail.com',
-            password: hashedPassword,
+            password: 'staff123',  // Plain password - model will hash it
             role: 'admin',
             isActive: true
         });
@@ -36,10 +31,11 @@ router.get('/setup-admin', async (req, res) => {
             message: 'Admin user created successfully!',
             email: 'staff@gmail.com',
             password: 'staff123',
-            warning: 'Please delete this route after creating admin! Remove routes/setup.js and the route mount in server_recovered.js'
+            warning: 'Please delete this route after creating admin!'
         });
 
     } catch (error) {
+        console.error('Setup error:', error);
         res.status(500).json({
             success: false,
             message: 'Error creating admin user',

@@ -1,4 +1,3 @@
-const bcrypt = require('bcryptjs');
 const { User } = require('../models');
 
 /**
@@ -12,14 +11,11 @@ const initializeDatabase = async () => {
         if (!adminExists) {
             console.log('📝 No admin user found. Creating default admin...');
 
-            // Hash password
-            const hashedPassword = await bcrypt.hash('staff123', 12);
-
-            // Create default admin
+            // Create default admin - model will hash password automatically
             await User.create({
                 name: 'Admin',
                 email: 'staff@gmail.com',
-                password: hashedPassword,
+                password: 'staff123',  // Plain password - model will hash it
                 role: 'admin',
                 isActive: true
             });
