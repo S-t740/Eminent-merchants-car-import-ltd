@@ -75,7 +75,7 @@ const HomePage = () => {
                     muted
                     playsInline
                 >
-                    <source src="/images/McLaren P1 on Backroads _ 4k.mp4" type="video/mp4" />
+                    <source src="https://res.cloudinary.com/dpi3ynfa7/video/upload/McLaren_P1_on_Backroads___4k_h7wgmy.mp4" type="video/mp4" />
                 </video>
                 <div className="hero-overlay"></div>
                 <div className="hero-content container">
