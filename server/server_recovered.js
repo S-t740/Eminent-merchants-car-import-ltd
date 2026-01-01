@@ -10,6 +10,7 @@ const authRoutes = require('./routes/auth');
 const vehicleRoutes = require('./routes/vehicles');
 const offerRoutes = require('./routes/offers');
 const inquiryRoutes = require('./routes/inquiries');
+const setupRoutes = require('./routes/setup'); // TEMPORARY - Remove after admin created
 
 // Initialize express
 const app = express();
@@ -58,6 +59,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/vehicles', vehicleRoutes);
 app.use('/api/offers', offerRoutes);
 app.use('/api/inquiries', inquiryRoutes);
+app.use('/api', setupRoutes); // TEMPORARY - Remove after admin created
 
 // 404 handler
 app.use((req, res) => {
