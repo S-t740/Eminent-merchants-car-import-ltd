@@ -3,6 +3,7 @@ const path = require('path');
 const cors = require('cors');
 require('dotenv').config();
 const { connectDB } = require('./config/database');
+const { initializeDatabase } = require('./config/initialize');
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -13,8 +14,11 @@ const inquiryRoutes = require('./routes/inquiries');
 // Initialize express
 const app = express();
 
-// Connect to database
-connectDB();
+// Connect to database and initialize
+connectDB().then(() => {
+    // Auto-create admin user if none exists
+    initializeDatabase();
+});
 
 const allowedOrigins = [
     process.env.CLIENT_URL,
